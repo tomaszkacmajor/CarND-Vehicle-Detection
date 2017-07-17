@@ -91,6 +91,7 @@ Below, there is a final result presented. For an exemplary 6 images, all ddetect
 
 Here's a [link](./project_video_output.mp4) to the final video after processing with the developed pipeline.
 
+When using the developed pipeline I noticed that there are still some false positives detected. But they are present only for 1-2 frames. Therfore, we can filter them out using moveing average of the heat map. Then I perform thresholding and labeling on the averaged heat map. By using this technique also the bounding boxes will be much more stable. To perform this operation `collections.deque` library was used (lines 779 to 802) with the maxlen parameter (number of stored frame) set to 8.
 
 ### Discussion
 
