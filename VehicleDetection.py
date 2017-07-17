@@ -732,6 +732,7 @@ def find_cars_with_scaled_boxes(img):
 # <markdowncell>
 # ### 
 # <codecell>
+import re 
 
 for image_name in glob.glob('test_images/test*.jpg'):
     img = mpimg.imread(image_name)
@@ -764,6 +765,11 @@ for image_name in glob.glob('test_images/test*.jpg'):
     plt.subplot(133)
     plt.imshow(draw_img)
     plt.title('Car Positions')
+    
+    image_name = re.split("[\\\/.]+",image_name)[-2]
+
+    
+    plt.savefig("output_images/"+image_name+"_output.png", bbox_inches='tight')
 
 
 # <markdowncell>
