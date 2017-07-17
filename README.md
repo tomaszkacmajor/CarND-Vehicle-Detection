@@ -37,16 +37,16 @@ Here is an example using the `RGB` color space and HOG parameters of `orientatio
 
 I tried various combinations of parameters. After a few iterations of training SVM classifier I decided to set the following HOG parameters.
 
-color_space = 'YCrCb' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb
-orient = 8  # HOG orientations
-pix_per_cell = 8 # HOG pixels per cell
-cell_per_block = 1 # HOG cells per block
-hog_channel = 'ALL' # Can be 0, 1, 2, or "ALL"
-spatial_size = (16, 16) # Spatial binning dimensions
-hist_bins = 64    # Number of histogram bins
-spatial_feat = True # Spatial features on or off
-hist_feat = True # Histogram features on or off
-hog_feat = True # HOG features on or off
+color_space = 'YCrCb' # Can be RGB, HSV, LUV, HLS, YUV, YCrCb</br>
+orient = 8  # HOG orientations</br>
+pix_per_cell = 8 # HOG pixels per cell</br>
+cell_per_block = 1 # HOG cells per block</br>
+hog_channel = 'ALL' # Can be 0, 1, 2, or "ALL"</br>
+spatial_size = (16, 16) # Spatial binning dimensions</br>
+hist_bins = 64    # Number of histogram bins</br>
+spatial_feat = True # Spatial features on or off</br>
+hist_feat = True # Histogram features on or off</br>
+hog_feat = True # HOG features on or off</br>
 
 #### SVM classifier
 
@@ -58,21 +58,21 @@ I used SVM classifier from sklearn library with linear kernel and default parame
 
 The code for this part is located in lines 625 through 730 of the file called `VehicleDetection.py`. For different y positions I defined different windows scales as below:
 
-ystart = 370
-ystop = 500
-scale = 1.0
-    
-ystart = 400
-ystop = 600
-scale = 1.5
-
-ystart = 400
-ystop = 650
-scale = 2.0
-
-ystart = 450
-ystop = 660
-scale = 2.5
+ystart = 370</br>
+ystop = 500</br>
+scale = 1.0</br>
+    </br>
+ystart = 400</br>
+ystop = 600</br>
+scale = 1.5</br>
+</br>
+ystart = 400</br>
+ystop = 650</br>
+scale = 2.0</br>
+</br>
+ystart = 450</br>
+ystop = 660</br>
+scale = 2.5</br>
 
 Typically, there are a several window detections for a car. On the other hand there are only a few detections for false positives. Therefore, to differenciate between these two situations, there is a add_heat function added to a pipeline. It returns bigger intensity for these pixels, which are multiple times classified as car. After applying a threshold, we can decide if the region is a car or not.
 
@@ -94,4 +94,4 @@ Here's a [link](./project_video_output.mp4) to the final video after processing 
 
 ### Discussion
 
-The pipeline is possible to fail when there is a vehicle object which is not similar to any of objects present in vehicles dataset. The final result can be also worse in rainy conditions or during a night. As we can see in the output video, where vehicles occlude, the pipeline returns one big object instead 2 occluding cars.
+The pipeline generally works fine. But it is possible to fail when there is a vehicle object which is not similar to any of objects present in vehicles dataset. The final result can be also worse in rainy conditions or during a night. As we can see in the output video, where vehicles occlude, the pipeline returns one big object instead 2 occluding cars.
