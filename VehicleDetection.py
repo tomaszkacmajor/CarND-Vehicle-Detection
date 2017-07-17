@@ -1,8 +1,6 @@
 import cv2
 import glob
 import numpy as np
-
-import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import time
@@ -16,9 +14,6 @@ from sklearn.model_selection import train_test_split
 from scipy.ndimage.measurements import label
 
 from moviepy.editor import VideoFileClip
-from IPython.display import HTML
-
-import time
 import random 
 
 from sklearn.svm import LinearSVC
