@@ -163,7 +163,7 @@ def extract_hog_features(imgs, cspace='RGB', orient=9,
 
 # Define a function to extract features from a list of images
 # Have this function call bin_spatial() and color_hist()
-def extract_features(images, color_space='RGB', spatial_size=(32, 32), 
+def extract_features(images, color_space='YCrCb', spatial_size=(32, 32), 
                      hist_bins=32, orient=9, pix_per_cell=8,
                      cell_per_block=2, hog_channel=0,
                      spatial_feat=True, hist_feat=True, hog_feat=True):
@@ -776,27 +776,36 @@ for image_name in glob.glob('test_images/test*.jpg'):
 # ### 
 # <codecell>
 
+from collections import deque
+history = deque(maxlen = 8)
+
 def full_pipeline(img):
+    
     bbox_list = find_cars_with_scaled_boxes(img)
     
     bbox_list = [item for sublist in bbox_list for item in sublist] 
     
     heat = np.zeros_like(img[:,:,0]).astype(np.float)
     heat = add_heat(heat, bbox_list)
-        
+    
+    history.append(heat)
+    heat_avg = sum(history)/8
+      
     # Apply threshold to help remove false positives
-    heat = apply_threshold(heat, 2)
+    heat_thresh = apply_threshold(heat_avg, 2)
     
     # Visualize the heatmap when displaying    
-    heatmap = np.clip(heat, 0, 255)
+    heatmap_clipped = np.clip(heat_thresh, 0, 255)
     
     # Find final boxes from heatmap using label function
-    labels = label(heatmap)
+    labels = label(heatmap_clipped)
     return draw_labeled_bboxes(np.copy(img), labels)
 
 # <markdowncell>
 # ### 
 # <codecell>
+
+history.clear()
 test_output = "test_output.mp4"
 clip = VideoFileClip("test_video.mp4")
 test_clip = clip.fl_image(full_pipeline)
@@ -805,6 +814,7 @@ test_clip.write_videofile(test_output, audio=False)
 # <markdowncell>
 # ### 
 # <codecell>
+history.clear()
 test_output = "project_video_output.mp4"
 clip = VideoFileClip("project_video.mp4")
 test_clip = clip.fl_image(full_pipeline)
